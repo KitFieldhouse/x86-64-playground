@@ -35,7 +35,6 @@
   }
 
   function setMode(mode_id){
-    console.log("this ran!");
     selected.set({
         value: mode_id,
         label: assemblers[mode_id].display_name
