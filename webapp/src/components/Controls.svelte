@@ -1,39 +1,48 @@
 <!-- @migration-task Error while migrating Svelte code: can't migrate `let showControls = false;` to `$state` because there's a variable named state.
      Rename the variable and try again or migrate by hand. -->
 <script>
-  export let mobile;
-  export let showEditor;
+  import { run } from 'svelte/legacy';
+
 
   import Logo from './Logo.svelte';
   import ArrowBack from './icons/ArrowBack.svelte';
   import ControlsFileMenu from './ControlsFileMenu.svelte';
-  import {blinkStore, state} from '../core/store'
+  import {blinkStore, sharedState} from '../core/store'
   import ControlsCompilebt from './ControlsCompilebt.svelte';
+  let { mobile, showEditor } = $props();
 
   let blink = blinkStore.getInstance()
 
   //-------------------
   //render conditionals
   //-------------------
-  let showControls = false;
-  let canstart = false;
-  let canstep = false;
-  let cancompile = false;
-  $: showControls = (
-    !mobile || !showEditor
-  )
-  $: canstart = (
-    $blinkStore.state == blink.states.PROGRAM_LOADED ||
-    $blinkStore.state == blink.states.PROGRAM_STOPPED
-  )
-  $: canstep = (
-    $blinkStore.state == blink.states.PROGRAM_RUNNING
-  )
-  $: cancompile = (
-    $blinkStore.state != blink.states.NOT_READY &&
-    $blinkStore.state != blink.states.ASSEMBLING &&
-    $blinkStore.state != blink.states.LINKING
-  )
+  let showControls = $state(false);
+  let canstart = $state(false);
+  let canstep = $state(false);
+  let cancompile = $state(false);
+  run(() => {
+    showControls = (
+      !mobile || !showEditor
+    )
+  });
+  run(() => {
+    canstart = (
+      $blinkStore.state == blink.states.PROGRAM_LOADED ||
+      $blinkStore.state == blink.states.PROGRAM_STOPPED
+    )
+  });
+  run(() => {
+    canstep = (
+      $blinkStore.state == blink.states.PROGRAM_RUNNING
+    )
+  });
+  run(() => {
+    cancompile = (
+      $blinkStore.state != blink.states.NOT_READY &&
+      $blinkStore.state != blink.states.ASSEMBLING &&
+      $blinkStore.state != blink.states.LINKING
+    )
+  });
 
   //-------------------
   //control handlers
@@ -85,7 +94,7 @@
       <ControlsFileMenu />
 
       {:else}
-        <button on:click={handle_back} class="button" >
+        <button onclick={handle_back} class="button" >
           <ArrowBack aria-hidden="true" focusable="false" width="16px" height="16px"/>
           Back to editor
         </button>
@@ -100,21 +109,21 @@
 
       <div class="btgroup">
         <button class="btgroup__button"
-          on:click={()=>blink.starti()}
+          onclick={()=>blink.starti()}
           disabled={!canstart} > 
           starti 
         </button>
         <button class="btgroup__button"
-          on:click={()=>blink.run()}
+          onclick={()=>blink.run()}
           disabled={!canstart} > 
           run 
         </button>
       </div>
 
-      <button class="button m-left-1" on:click={()=>blink.stepi()}
+      <button class="button m-left-1" onclick={()=>blink.stepi()}
         disabled={!canstep}
       > stepi </button>
-      <button class="button m-left-1" on:click={()=>blink.continue()}
+      <button class="button m-left-1" onclick={()=>blink.continue()}
         disabled={!canstep}
       > continue </button>
 
@@ -124,7 +133,7 @@
 
   <div class="loadingbar">
     <div class="loadingbar__content"
-      class:active={$state == blink.states.NOT_READY}
+      class:active={$sharedState == blink.states.NOT_READY}
     ></div>
   </div>
 
@@ -132,7 +141,7 @@
 </div>
 
 
-{#if mobile && !showEditor && $state == blink.states.PROGRAM_STOPPED}
+{#if mobile && !showEditor && $sharedState == blink.states.PROGRAM_STOPPED}
   <p class="stopinfo">{blink.stopReason.details}</p>
 {/if}
 

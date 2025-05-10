@@ -7,7 +7,7 @@
   import WizardHat from './icons/WizardHat.svelte';
 
   import { assemblers } from '../core/assemblers';
-  import {blinkStore, state, mode} from '../core/store'
+  import {blinkStore, sharedState, mode} from '../core/store'
     import Checkmark from './icons/Checkmark.svelte';
   let { cancompile } = $props();
 
@@ -35,6 +35,7 @@
   }
 
   function setMode(mode_id){
+    console.log("this ran!");
     selected.set({
         value: mode_id,
         label: assemblers[mode_id].display_name

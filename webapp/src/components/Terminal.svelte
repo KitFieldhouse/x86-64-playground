@@ -1,10 +1,12 @@
 <!-- @migration-task Error while migrating Svelte code: can't migrate `let termref;` to `$state` because there's a variable named state.
      Rename the variable and try again or migrate by hand. -->
 <script>
-  import {blinkStore, term_buffer, state} from '../core/store'
+  import { run } from 'svelte/legacy';
+
+  import {blinkStore, term_buffer, sharedState} from '../core/store'
 
   let blink = blinkStore.getInstance()
-  let termref;
+  let termref = $state();
 
   function scroll(){
     if(termref != null){
@@ -15,7 +17,9 @@
   }
   // Scroll the terminal wen the program state 
   // or the terminal buffer change
-  $: ($term_buffer || $state) && scroll()
+  run(() => {
+    ($term_buffer || $sharedState) && scroll()
+  });
 
 </script>
 
@@ -23,7 +27,7 @@
   <div class="term__codewrap">
     <code >{$term_buffer}</code>
   </div>
-{#if $state == blink.states.PROGRAM_STOPPED}
+{#if $sharedState == blink.states.PROGRAM_STOPPED}
     <p class="stopinfo">{blink.stopReason.details}</p>
 {/if}
 </div>

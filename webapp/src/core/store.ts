@@ -154,7 +154,7 @@ export const blinkStore = createBlinkStore();
  */
 export const manual_render = portion(blinkStore, "manual_render");
 export const term_buffer = portion(blinkStore, "term_buffer");
-export const state = portion(blinkStore, "state");
+export const sharedState = portion(blinkStore, "state");
 export const signal = portion(blinkStore, "signal");
 export const mode = portion(blinkStore, "mode");
 export const uploadedElf = portion(blinkStore, "uploadedElf");

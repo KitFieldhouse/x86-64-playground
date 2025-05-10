@@ -1,6 +1,8 @@
 <!-- @migration-task Error while migrating Svelte code: can't migrate `let showEditor = true;` to `$state` because there's a variable named state.
      Rename the variable and try again or migrate by hand. -->
 <script lang="ts">
+  import { run } from 'svelte/legacy';
+
 import { PaneGroup, Pane, PaneResizer } from "paneforge";
 import Hexdump from './components/Hexdump.svelte';
 import Editor from './components/Editor.svelte';
@@ -10,7 +12,7 @@ import Terminal from './components/Terminal.svelte';
 import Controls from './components/Controls.svelte';
 import {TabsAutomatic} from './core/ARIA'
 
-import {blinkStore, state} from './core/store'
+import {blinkStore, sharedState} from './core/store'
 
 let blink = blinkStore.getInstance()
 
@@ -26,13 +28,15 @@ function initTabARIA(node){
   }
 }
 
-let showEditor = true;
-$: showEditor = (
-  $state == blink.states.READY ||
-  $state == blink.states.NOT_READY ||
-  $state == blink.states.ASSEMBLING ||
-  $state == blink.states.LINKING
-)
+let showEditor = $state(true);
+run(() => {
+    showEditor = (
+    $sharedState == blink.states.READY ||
+    $sharedState == blink.states.NOT_READY ||
+    $sharedState == blink.states.ASSEMBLING ||
+    $sharedState == blink.states.LINKING
+  )
+  });
 
 </script>
 

@@ -1,7 +1,9 @@
 <!-- @migration-task Error while migrating Svelte code: can't migrate `let editor_elem;` to `$state` because there's a variable named state.
      Rename the variable and try again or migrate by hand. -->
 <script>
-import {blinkStore, state, editorContent_write, editorContent_read} from '../core/store'
+  import { run } from 'svelte/legacy';
+
+import {blinkStore, sharedState, editorContent_write, editorContent_read} from '../core/store'
 import {onMount} from 'svelte'
 import { createEditor } from "prism-code-editor"
 
@@ -21,7 +23,7 @@ import { defaultCommands } from "prism-code-editor/commands"
 import { setIgnoreTab } from "prism-code-editor/commands"
 
 
-let editor_elem;
+let editor_elem = $state();
 let editor;
 
 let rendered_errors = [];
@@ -29,10 +31,12 @@ let rendered_errors = [];
 let blink = blinkStore.getInstance()
 
 // render conditionals
-let invalidElf = false;
-$: $state && (
-  invalidElf = blink.state == blink.states.PROGRAM_STOPPED &&
-    blink.stopReason.loadFail)
+let invalidElf = $state(false);
+run(() => {
+    $sharedState && (
+    invalidElf = blink.state == blink.states.PROGRAM_STOPPED &&
+      blink.stopReason.loadFail)
+  });
 
 
 function renderEditor(){
@@ -108,9 +112,13 @@ function updateEditor(){
   renderErrors()
 }
 
-$: $editorContent_write && updateEditor()
+run(() => {
+    $editorContent_write && updateEditor()
+  });
 
-$: $state && renderErrors();
+run(() => {
+    $sharedState && renderErrors();
+  });
 
 onMount(() => {
   renderEditor();
@@ -131,7 +139,7 @@ onMount(() => {
       with musl or cosmopolitan libc</p>
   {/if}
 
-      <button on:click={()=>blinkStore.setUploadedElfName("")}>back to editor</button>
+      <button onclick={()=>blinkStore.setUploadedElfName("")}>back to editor</button>
     </div>
   {/if}
   <div class="editor" bind:this={editor_elem}
