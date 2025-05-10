@@ -1,6 +1,7 @@
 import fasm_1_73_32 from '../assets/assemblers/fasm.1.73.32.elf?url'
 import gnu_as_2_43_50 from '../assets/assemblers/gnu-as.2.43.50.elf?url'
 import gnu_ld_2_43_50 from '../assets/assemblers/gnu-ld.2.43.50.elf?url'
+import yasm_1_3_0 from '../assets/assemblers/yasm.1.3.0.elf'
 
 export interface Binary {
   fileurl: string;
@@ -70,6 +71,22 @@ export const assemblers: Record<string, AssemblerMode> = {
       assembler: {
         fileurl: fasm_1_73_32,
         commands: '/assembler /assembly.s /program',
+      },
+    },
+  },
+    'YASM_trunk': {
+    id: 'YASM_trunk',
+    display_name: 'YASM',
+    description: 'YASM + GNU ld, version 1.3.0. Compiled as a static MUSL binary',
+    diagnosticsParser: gnu_diagnostics,
+    binaries: {
+      assembler: {
+        fileurl: yasm_1_3_0,
+        commands: '/assembler-Worphan-labels -f elf64 /assembly.s -o /program.o'
+      },
+      linker: {
+        fileurl: gnu_ld_2_43_50,
+        commands: '/linker /program.o -o /program'
       },
     },
   }
