@@ -1,23 +1,34 @@
 <script>
+  import { run } from 'svelte/legacy';
+
 import {blinkStore, manual_render} from '../core/store'
 
-//TODO: a11y arrow keys https://svelte.dev/repl/328a064fd64843f68418e04d2db09f35?version=3.18.1
-export let centered = false;
-export let bytesPerRow = 16;
-export let colorRegions = {}
-export let showAscii = true;
+
+  /**
+   * @typedef {Object} Props
+   * @property {boolean} [centered] - TODO: a11y arrow keys https://svelte.dev/repl/328a064fd64843f68418e04d2db09f35?version=3.18.1
+   * @property {number} [bytesPerRow]
+   * @property {any} [colorRegions]
+   * @property {boolean} [showAscii]
+   */
+
+  /** @type {Props} */
+  let {
+    centered = false,
+    bytesPerRow = 16,
+    colorRegions = {},
+    showAscii = true
+  } = $props();
 
 
 let blink = blinkStore.getInstance()
 
 
 let byte_count = 512
-let startAddress = 0n;
-let data = Array(byte_count).fill(0)
-//rerender hexdata on machine step
-$: $manual_render && updateAll();
+let startAddress = $state(0n);
+let data = $state(Array(byte_count).fill(0))
 
-let hoveredIndex = -1;
+let hoveredIndex = $state(-1);
 
   function updateAll(){
     if(!blink.m || !(blink.state == blink.states.PROGRAM_RUNNING || blink.state == blink.states.PROGRAM_STOPPED)){
@@ -77,6 +88,10 @@ let hoveredIndex = -1;
     let index = e.target.getAttribute("data-index");
     hoveredIndex = index;
   }
+//rerender hexdata on machine step
+run(() => {
+    $manual_render && updateAll();
+  });
 </script>
 
 <div>
@@ -94,7 +109,7 @@ let hoveredIndex = -1;
         <div>{((BigInt(i) + startAddress).toString(16)).padStart(16, "0")}</div>
       {/each}
     </div>
-    <div class="hexdump__hex hexdump__responsivecol" on:mouseover={handleHover}>
+    <div class="hexdump__hex hexdump__responsivecol" onmouseover={handleHover}>
       {#key colorRegions}
       {#each data as d, i}
         <span
@@ -111,7 +126,7 @@ let hoveredIndex = -1;
     {#if showAscii}
     <div
       class="hexdump__ascii hexdump__responsivecol"
-      on:mouseover={handleHover}
+      onmouseover={handleHover}
     >
       {#key colorRegions}
       {#each data as d, i}

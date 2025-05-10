@@ -9,12 +9,12 @@ let blink = blinkStore.getInstance()
 //make the blink wrapper accessible to the developer tools
 window['blink'] = blink;
 
-let innerWidth = 0; 
+let innerWidth = $state(0); 
 let breakpoints = {
   mobile: 640
 }
 
-let dragDecoration = false;
+let dragDecoration = $state(false);
 let timer = null;
 
 function handleDragover(e){
@@ -69,9 +69,9 @@ async function handleDrop(e){
 <svelte:window bind:innerWidth />
 
 <div 
-  on:dragover={handleDragover}
-  on:drop={handleDrop}
-  on:dragleave={handleDragLeave}
+  ondragover={handleDragover}
+  ondrop={handleDrop}
+  ondragleave={handleDragLeave}
   role="region"
 >
   {#if dragDecoration}

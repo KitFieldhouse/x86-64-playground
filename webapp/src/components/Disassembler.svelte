@@ -1,12 +1,14 @@
 <script>
+  import { run } from 'svelte/legacy';
+
 import { onMount } from 'svelte';
 import {blinkStore, manual_render} from '../core/store'
 
 let blink = blinkStore.getInstance()
 
-let elem;
+let elem = $state();
 let first_line = "";
-let disassebly_fail = false
+let disassebly_fail = $state(false)
 
 function getFirstLine(mem, startPtr, line_len){
   let str = ""
@@ -112,7 +114,9 @@ function updateDis(){
 //rendering shenaningans.
 //this is faster because this specific component is 
 //manually updating the DOM, bypassing the optimized svelte renderer
-$: $manual_render && updateDis();
+run(() => {
+    $manual_render && updateDis();
+  });
 
 onMount(async () => {
   updateDis();

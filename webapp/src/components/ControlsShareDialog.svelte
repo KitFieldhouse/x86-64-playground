@@ -13,8 +13,8 @@
   } = createDialog()
 
   let inputDomnode:any;
-  let uri:string = "";
-  let urilen = 0;
+  let uri:string = $state("");
+  let urilen = $state(0);
   let dangerouslen = 2048;
   let maxlen = 8100;
   function updater(node){
@@ -43,7 +43,7 @@
 
 {#if $open}
   <div {...$portalled} use:portalled>
-    <div {...$overlay} use:overlay />
+    <div {...$overlay} use:overlay></div>
     <div {...$content} use:content>
       <h2 {...$title} use:title>Share</h2>
       {#if urilen >= maxlen}
@@ -62,13 +62,13 @@
           <input class="btgroup__button" 
             use:updater
             value={uri}
-            on:focus={e=>{ 
+            onfocus={e=>{ 
               setTimeout(()=>e.target.setSelectionRange(0, -1, "backward"),
               0)
             }}
             readonly type="text" placeholder="loading..." />
           <button class="btgroup__button" 
-            on:click={handleCopyClick}
+            onclick={handleCopyClick}
             >
             <Clipboard
               width="18px"

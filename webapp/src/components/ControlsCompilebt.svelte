@@ -1,5 +1,6 @@
 <script language="ts">
-  export let cancompile;
+  import { run } from 'svelte/legacy';
+
 
   import { createSelect, melt } from '@melt-ui/svelte';
   import ArrowDropDown from './icons/ArrowDropDown.svelte';
@@ -8,6 +9,7 @@
   import { assemblers } from '../core/assemblers';
   import {blinkStore, state, mode} from '../core/store'
     import Checkmark from './icons/Checkmark.svelte';
+  let { cancompile } = $props();
 
   let blink = blinkStore.getInstance()
   let assemblerModes = Object.values(assemblers)
@@ -54,7 +56,9 @@
       },
     });
 
-$: $mode && setMode($mode)
+run(() => {
+    $mode && setMode($mode)
+  });
 
 </script>
 
@@ -88,7 +92,7 @@ $: $mode && setMode($mode)
 
 
   <button class="btgroup__button"
-    disabled={!cancompile} on:click={handle_compile}>
+    disabled={!cancompile} onclick={handle_compile}>
     <WizardHat aria-hidden="true" focusable="false" width="26px" height="26px" />
     compile</button>
 </div>

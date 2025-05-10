@@ -12,7 +12,7 @@
 
   let blink = blinkStore.getInstance()
 
-  let fileElem:any;
+  let fileElem:any = $state();
   function handleLoadExec(){
     if(!fileElem) return
     fileElem.click()
@@ -60,7 +60,7 @@
 
 
 <input
-  on:change={handleFileUpload}
+  onchange={handleFileUpload}
   type="file" class="file" bind:this={fileElem} />
 
 <div class="custom-overlay"></div>
@@ -90,14 +90,14 @@
         <div class="text">Examples</div>
           {#each snippetsList as snippet}
             <div {...$item} use:item
-              on:m-click={_ => handleSnippetClick(snippet.id)}
+              onm-click={_ => handleSnippetClick(snippet.id)}
               >{snippet.display_name}</div>
           {/each}
       </div>
     {/if}
 
-    <div {...$separator} use:separator />
-    <div {...$item} use:item on:m-click={handleLoadExec}>
+    <div {...$separator} use:separator></div>
+    <div {...$item} use:item onm-click={handleLoadExec}>
       Load executable from your files
     </div>
 

@@ -1,3 +1,8 @@
+<script>
+  /** @type {{ [key: string]: any }} */
+  let { ...props } = $props();
+</script>
+
 
 <!--@component
   Svg Icon
@@ -20,7 +25,7 @@
   viewBox="0 -960 960 960"
   width="24px"
   class="default-fill"
-  {...$$props}
+  {...props}
 ><path d="M480-360 280-560h400L480-360Z"/></svg>
 
 <style>

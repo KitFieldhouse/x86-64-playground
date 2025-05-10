@@ -1,9 +1,11 @@
 <script>
+  import { run } from 'svelte/legacy';
+
 import {blinkStore, manual_render} from '../core/store'
 
 let blink = blinkStore.getInstance()
 
-let registers = [
+let registers = $state([
   {name: "rax", updated: false, str: "0x00"},
   {name: "rbx", updated: false, str: "0x00"},
   {name: "rcx", updated: false, str: "0x00"},
@@ -23,7 +25,7 @@ let registers = [
   {name: "r13", updated: false, str: "0x00"},
   {name: "r14", updated: false, str: "0x00"},
   {name: "r15", updated: false, str: "0x00"},
-]
+])
 
 function updateRegisters(){
   if(!(blink.state == blink.states.PROGRAM_RUNNING ||
@@ -44,7 +46,9 @@ function updateRegisters(){
 }
 
 //rerender registers on machine step
-$: $manual_render && updateRegisters();
+run(() => {
+    $manual_render && updateRegisters();
+  });
 
 </script>
 
