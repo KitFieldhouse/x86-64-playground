@@ -17,12 +17,12 @@
   async function handle_compile(){
     blink.loadASM($blinkStore.editorContent_read);
     //analytics
-    if(window.hasOwnProperty("goatcounter")){
-      window.goatcounter.count({
-          path:  function(p) { return 'click-compile-' + p },
-          event: true,
-      })
-    }
+    // if(window.hasOwnProperty("goatcounter")){
+    //   window.goatcounter.count({
+    //       path:  function(p) { return 'click-compile-' + p },
+    //       event: true,
+    //   })
+    // }
   }
 
   function handle_assembler_change(e){

@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { run } from 'svelte/legacy';
 
 import { onMount } from 'svelte';
@@ -6,7 +6,7 @@ import {blinkStore, manual_render} from '../core/store'
 
 let blink = blinkStore.getInstance()
 
-let elem = $state();
+let elem : HTMLElement = $state();
 let first_line = "";
 let disassebly_fail = $state(false)
 

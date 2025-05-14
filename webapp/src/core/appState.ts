@@ -1,5 +1,5 @@
-import {Assemblers_key, assemblers} from './assemblers'
-import {Snippet} from './example_snippets'
+import {type Assemblers_key, assemblers} from './assemblers'
+import type { Snippet } from './example_snippets';
 import {compressStringToBase64, decompressBase64ToString} from './compression'
 
 

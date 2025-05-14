@@ -1,5 +1,5 @@
 import blinkenlib from '../assets/blinkenlib.js'
-import {assemblers, AssemblerMode, fasm_diagnostics} from '../core/assemblers'
+import type { assemblers, AssemblerMode, fasm_diagnostics } from '../core/assemblers';
 
 /**
 * Machine Cross-language struct.
@@ -100,7 +100,7 @@ class M_CLStruct{
     return "0x"+hexStr;
   }
 
-  readU64(key: keyof typeof this.keys): BigInt{
+  readU64(key: keyof typeof this.keys): bigint{
     let ptr = this.getPtr(key);
     let little_endian = true;
     return this.memView.getBigUint64(ptr, little_endian);

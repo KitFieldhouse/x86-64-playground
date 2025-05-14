@@ -1,11 +1,15 @@
-<script>
+<script lang='ts'>
   import { run } from 'svelte/legacy';
 
 import {blinkStore, manual_render} from '../core/store'
 
 let blink = blinkStore.getInstance()
 
-let registers = $state([
+let registerNames = [ "rax",  "rbx", "rcx", "rdx" ,"rsp", "rbp",  "rsi",  "rdi",  "rip",  "r8", "r9", "r10" ,"r11", "r12","r13", "r14","r15"] as const;
+
+type Registers = {name: typeof registerNames[number], updated: boolean, str: string}[]
+
+let registers : Registers = $state([
   {name: "rax", updated: false, str: "0x00"},
   {name: "rbx", updated: false, str: "0x00"},
   {name: "rcx", updated: false, str: "0x00"},
@@ -17,8 +21,8 @@ let registers = $state([
   {name: "rdi", updated: false, str: "0x00"},
   {name: "rip", updated: true, str: "0x00"},
 
-  {name: "r8 ", updated: false, str: "0x00"},
-  {name: "r9 ", updated: false, str: "0x00"},
+  {name: "r8", updated: false, str: "0x00"},
+  {name: "r9", updated: false, str: "0x00"},
   {name: "r10", updated: false, str: "0x00"},
   {name: "r11", updated: false, str: "0x00"},
   {name: "r12", updated: false, str: "0x00"},
@@ -32,7 +36,7 @@ function updateRegisters(){
     blink.state == blink.states.PROGRAM_STOPPED)) return;
 
   for(let reg of registers){
-    let new_str = blink.m.stringReadU64(reg.name.trim())
+    let new_str = blink.m.stringReadU64(reg.name)
     if(new_str == reg.str){
       reg.updated = false;
     }

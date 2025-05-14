@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   // List of theme color variables to visualize
   const themeColors = [
     { name: '--color-white', label: 'White' },

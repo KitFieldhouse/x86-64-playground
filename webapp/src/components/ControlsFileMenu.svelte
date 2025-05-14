@@ -20,7 +20,7 @@
   export const fileToArrayBuffer = (blob: Blob): Promise<ArrayBuffer> => {
     return new Promise((resolve) => {
       const reader = new FileReader()
-      reader.onloadend = () => resolve(reader.result)
+      reader.onloadend = () => resolve(reader.result as ArrayBuffer) // TODO: this is a kludge, need to figure out what this is doing...
       reader.readAsArrayBuffer(blob)
     })
   }
@@ -90,14 +90,14 @@
         <div class="text">Examples</div>
           {#each snippetsList as snippet}
             <div {...$item} use:item
-              onm-click={_ => handleSnippetClick(snippet.id)}
+              onclick={_ => handleSnippetClick(snippet.id)}
               >{snippet.display_name}</div>
           {/each}
       </div>
     {/if}
 
     <div {...$separator} use:separator></div>
-    <div {...$item} use:item onm-click={handleLoadExec}>
+    <div {...$item} use:item onclick={handleLoadExec}>
       Load executable from your files
     </div>
 

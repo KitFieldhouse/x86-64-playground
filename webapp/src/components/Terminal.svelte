@@ -1,12 +1,12 @@
 <!-- @migration-task Error while migrating Svelte code: can't migrate `let termref;` to `$state` because there's a variable named state.
      Rename the variable and try again or migrate by hand. -->
-<script>
+<script lang='ts'>
   import { run } from 'svelte/legacy';
 
   import {blinkStore, term_buffer, sharedState} from '../core/store'
 
   let blink = blinkStore.getInstance()
-  let termref = $state();
+  let termref : HTMLElement = $state();
 
   function scroll(){
     if(termref != null){

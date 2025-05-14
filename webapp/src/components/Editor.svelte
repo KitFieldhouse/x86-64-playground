@@ -1,6 +1,6 @@
 <!-- @migration-task Error while migrating Svelte code: can't migrate `let editor_elem;` to `$state` because there's a variable named state.
      Rename the variable and try again or migrate by hand. -->
-<script>
+<script lang="ts">
   import { run } from 'svelte/legacy';
 
 import {blinkStore, sharedState, editorContent_write, editorContent_read} from '../core/store'
@@ -23,7 +23,7 @@ import { defaultCommands } from "prism-code-editor/commands"
 import { setIgnoreTab } from "prism-code-editor/commands"
 
 
-let editor_elem = $state();
+let editor_elem : HTMLElement = $state();
 let editor;
 
 let rendered_errors = [];

@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { run } from 'svelte/legacy';
 
 import {blinkStore, manual_render} from '../core/store'

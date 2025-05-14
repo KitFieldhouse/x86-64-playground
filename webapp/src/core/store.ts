@@ -1,7 +1,7 @@
 import { writable, derived, get } from "svelte/store";
 import {Blink} from './blink'
-import {assemblers, Assemblers_key} from './assemblers'
-import {AppState, snippetToAppState, storage_getAppState, storage_setAppState, uri_getAppState} from './appState'
+import {assemblers, type Assemblers_key} from './assemblers'
+import {type AppState, snippetToAppState, storage_getAppState, storage_setAppState, uri_getAppState} from './appState'
 import { snippets, default_snippet } from "./example_snippets";
 
 function portion(parentStore, name) {

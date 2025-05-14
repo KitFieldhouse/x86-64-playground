@@ -22,12 +22,12 @@
     urilen = uri.length
 
     //analytics
-    if(window.hasOwnProperty("goatcounter")){
-      window.goatcounter.count({
-          path:  function(p) { return 'click-share-' + p },
-          event: true,
-      })
-    }
+    // if(window.hasOwnProperty("goatcounter")){
+    //   window.goatcounter.count({
+    //       path:  function(p) { return 'click-share-' + p },
+    //       event: true,
+    //   })
+    // }
   }
 
   function handleCopyClick(){
@@ -62,8 +62,8 @@
           <input class="btgroup__button" 
             use:updater
             value={uri}
-            onfocus={e=>{ 
-              setTimeout(()=>e.target.setSelectionRange(0, -1, "backward"),
+            onfocus={(e) =>{ 
+              setTimeout(()=>(e.target as HTMLInputElement).setSelectionRange(0, -1, "backward"),
               0)
             }}
             readonly type="text" placeholder="loading..." />
