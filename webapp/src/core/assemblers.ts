@@ -1,7 +1,7 @@
 import fasm_1_73_32 from '../assets/assemblers/fasm.1.73.32.elf?url'
 import gnu_as_2_43_50 from '../assets/assemblers/gnu-as.2.43.50.elf?url'
 import gnu_ld_2_43_50 from '../assets/assemblers/gnu-ld.2.43.50.elf?url'
-import yasm_1_3_0 from '../assets/assemblers/yasm.1.3.0.elf'
+import yasm_1_3_0 from '../assets/assemblers/yasm.1.3.0.elf?url'
 
 export interface Binary {
   fileurl: string;
