@@ -112,9 +112,6 @@
 .p-right-0{
   padding-right: 0;
 }
-.m-left-1{
-  /* margin-left: 1rem; */
-}
 
 .rightSlot {
   margin-left: auto;

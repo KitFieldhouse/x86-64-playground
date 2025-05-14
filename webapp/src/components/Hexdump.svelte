@@ -109,7 +109,7 @@ run(() => {
         <div>{((BigInt(i) + startAddress).toString(16)).padStart(16, "0")}</div>
       {/each}
     </div>
-    <div class="hexdump__hex hexdump__responsivecol" onmouseover={handleHover}>
+    <div class="hexdump__hex hexdump__responsivecol" onmouseover={handleHover} onfocus={() => {console.log("I have been focused!")}} role="presentation">
       {#key colorRegions}
       {#each data as d, i}
         <span
@@ -127,6 +127,8 @@ run(() => {
     <div
       class="hexdump__ascii hexdump__responsivecol"
       onmouseover={handleHover}
+      role="presentation"
+      onfocus={() => {console.log("I have been focused!")}}
     >
       {#key colorRegions}
       {#each data as d, i}

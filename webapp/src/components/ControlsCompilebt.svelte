@@ -1,4 +1,4 @@
-<script language="ts">
+<script lang="ts">
   import { run } from 'svelte/legacy';
 
 
